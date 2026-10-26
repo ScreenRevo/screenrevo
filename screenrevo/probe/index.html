@@ -1,0 +1,27 @@
+<!doctype html>
+<html lang="pt-BR">
+<head>
+<meta charset="utf-8">
+<meta name="viewport" content="width=1920, height=1080">
+<title>ScreenRevo Probe</title>
+<link rel="stylesheet" href="probe.css">
+<script src="$WEBAPIS/webapis/webapis.js"></script>
+<script src="config.js"></script>
+</head>
+<body>
+<div id="left">
+  <h1>ScreenRevo · App de teste</h1>
+  <div id="sub" class="sub"></div>
+  <table><tbody id="tests"></tbody></table>
+</div>
+<div id="stage"><canvas id="gl" width="1920" height="1080"></canvas></div>
+<div id="bottom">
+  <div id="actions"></div>
+  <div class="label">Registro (teclas, voz, app escondido/visível)</div>
+  <div id="events"></div>
+</div>
+<video id="video" muted loop playsinline preload="auto"></video>
+<div id="toast"></div>
+<script src="probe.js"></script>
+</body>
+</html>
