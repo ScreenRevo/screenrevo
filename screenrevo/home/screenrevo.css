@@ -1,0 +1,18 @@
+/* ScreenRevo on Free My TV's home screen (screenrevo.js). Plain CSS, like web/: no variables, grid or backdrop-filter. */
+
+/* Live inputs: Samsung's TV window lies under the page, so the page's own backgrounds step aside for it. */
+#sky { -webkit-transition: opacity 0.35s; transition: opacity 0.35s; }
+html.sr-live, html.sr-live body { background: transparent; }
+html.sr-live #sky { opacity: 0; }
+
+/* A shade over the live picture, darker at the bottom, so the shelf and the drawer stay readable on it. */
+#sr-shade {
+  z-index: 0;
+  opacity: 0;
+  pointer-events: none;
+  background: -webkit-linear-gradient(top, rgba(0, 0, 0, 0) 30%, rgba(0, 0, 0, 0.72));
+  background: linear-gradient(rgba(0, 0, 0, 0) 30%, rgba(0, 0, 0, 0.72));
+  -webkit-transition: opacity 0.35s;
+  transition: opacity 0.35s;
+}
+html.sr-live #sr-shade { opacity: 1; }

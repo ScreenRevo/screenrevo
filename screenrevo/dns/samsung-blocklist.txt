@@ -1,0 +1,19 @@
+# ScreenRevo: Samsung TV domains to block (ads, viewing-data ACR, crash dumps and promos).
+# One domain per line; each one also blocks its subdomains. Conservative on purpose: nothing here is known to break
+# apps, the Samsung account, Samsung TV Plus or software updates. never-block.txt lists what must keep working,
+# and dnslog.py checks both against what a TV actually asks for before anything goes on a router.
+# Source: Perflyst/PiHoleBlocklist SmartTV.txt, its Samsung part minus the entries its own comments say break
+# things and the whole-domain ones (samsungcloudsolution.com, samsungqbe.com) that take updates and TV Plus along.
+
+# Ads on Samsung's home screen and in Samsung's apps
+samsungads.com
+samsungadhub.com
+
+# Automatic content recognition (Viewing Information Services): what's on screen, sent to Samsung
+samsungacr.com
+
+# Crash and error dumps
+prderrordumphsm.samsungcloudsolution.com
+
+# Promotions
+gamespromotion.samsungcloudsolution.com

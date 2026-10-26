@@ -10,33 +10,25 @@
 Signing goes through Free My TV's tizen/build.py: Samsung's `tizen package` with a certificate profile.
 """
 import datetime
-import importlib.util
 import json
 import os
-import re
 import shutil
 import socket
 import subprocess
 import sys
-import tempfile
 import zipfile
 
 HERE = os.path.dirname(os.path.abspath(__file__))
-ROOT = os.path.dirname(os.path.dirname(HERE))
+sys.path.insert(0, os.path.dirname(HERE))
+import tizen_tools  # noqa: E402
+
+ROOT = tizen_tools.ROOT
 OUT = os.path.join(ROOT, 'out')
 WGT = os.path.join(OUT, 'screenrevo-probe.wgt')
 PREVIEW = os.path.join(OUT, 'screenrevo-probe')
 CLIP = os.path.join(OUT, 'screenrevo-probe-cache', 'sample.mp4')
 PORT = 8765
 FILES = ('config.xml', 'index.html', 'probe.css', 'probe.js')
-
-
-def upstream(name):
-    """Free My TV's tizen/<name>.py, loaded by path: this folder has files with the same names."""
-    spec = importlib.util.spec_from_file_location('fmtv_tizen_' + name, os.path.join(ROOT, 'tizen', name + '.py'))
-    module = importlib.util.module_from_spec(spec)
-    spec.loader.exec_module(module)
-    return module
 
 
 def this_computer(tv=None):
@@ -68,27 +60,6 @@ def clip():
         print('ffmpeg didn\'t make the test clip: ' + run.stderr.strip())
         return None
     return CLIP
-
-
-def sign(profile):
-    cli = upstream('build').tizen_cli()
-    if not cli:
-        sys.exit('Signing needs Samsung\'s Tizen tools (Tizen Studio\'s CLI). Not found: set TIZEN_STUDIO to where '
-                 'they are installed.')
-    out = tempfile.mkdtemp()
-    try:
-        run = subprocess.run([cli, 'package', '-t', 'wgt', '-s', profile, '-o', out, '--', WGT],
-                             capture_output=True, text=True)
-        made = [n for n in os.listdir(out) if n.endswith('.wgt')]
-        if run.returncode != 0 or not made:
-            sys.exit('`tizen package` didn\'t sign it:\n' + (run.stdout + run.stderr).strip())
-        shutil.move(os.path.join(out, made[0]), WGT)
-    finally:
-        shutil.rmtree(out, ignore_errors=True)
-    with zipfile.ZipFile(WGT) as z:
-        names = z.namelist()
-    if 'author-signature.xml' not in names or 'signature1.xml' not in names:
-        sys.exit('The package came back without its signatures.')
 
 
 def main():
@@ -123,7 +94,7 @@ def main():
         for path in sorted(app):
             z.writestr(path, app[path], compress_type=zipfile.ZIP_STORED if path.endswith('.mp4') else None)
     if profile:
-        sign(profile)
+        tizen_tools.sign(WGT, profile)
 
     if preview:
         shutil.rmtree(PREVIEW, ignore_errors=True)
@@ -133,9 +104,7 @@ def main():
                 f.write(data)
         print('Preview: serve out/screenrevo-probe (python -m http.server) and open it in a browser.')
 
-    manifest = app['config.xml'].decode('utf-8')
-    app_id = re.search(r'<tizen:application id="([^"]+)"', manifest).group(1)
-    version = re.search(r'<widget [^>]*version="([^"]+)"', manifest).group(1)
+    app_id, _, version = tizen_tools.manifest_ids(app['config.xml'].decode('utf-8'))
     print('Built out/%s (%s %s, %d KB, %s)' % (os.path.basename(WGT), app_id, version, os.path.getsize(WGT) // 1024,
                                               'signed with "%s"' % profile if profile else 'not signed'))
     print('Results go to ' + config['collector'] if config['collector'] else 'No collector: results only on screen.')

@@ -1,0 +1,31 @@
+# ScreenRevo: Samsung TV domains that must keep working. dnslog.py never blocks them, whatever a list says.
+# Each one also covers its subdomains. Most come from the comments in Perflyst/PiHoleBlocklist SmartTV.txt,
+# where people found what broke on their TVs.
+
+# Software updates
+samsungotn.net
+otn.samsungcloudcdn.com
+otnprd8.samsungcloudsolution.net
+otnprd9.samsungcloudsolution.net
+otnprd10.samsungcloudsolution.net
+otnprd11.samsungcloudsolution.net
+cdn.samsungcloudsolution.com
+
+# The Samsung account and the app store
+samsungosp.com
+infolink.pavv.co.kr
+
+# The TV's clock: without it Plex, YouTube and Prime Video stop working on some TVs
+time.samsungcloudsolution.com
+
+# Samsung TV Plus
+osb-ussvc.samsungqbe.com
+gpm.samsungqbe.com
+
+# Settings and the network check
+configprd.samsungcloudsolution.net
+lcprd1.samsungcloudsolution.net
+
+# Screen mirroring and the SmartThings app's TV control
+multiscreen.samsung.com
+samsungrm.net
