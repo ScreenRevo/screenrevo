@@ -10,15 +10,22 @@ Free My TV's web home screen (`web/`, as it is) packed as its own Samsung app, `
 `screenrevo.js` and `screenrevo.css` on top. `build.py` writes them into `index.html` after `home.js` and
 `home.css`, so nothing in `web/` changes. What they add:
 
-- **Live inputs:** in the drawer, an input that keeps the focus for a moment fills the screen with its live picture
-  behind the home screen (Samsung's TV window, `tizen.tvwindow`). OK opens it as before, already on that source.
+- **Live inputs:** the drawer's card row starts with a live card, and the weather and prices cards move to its right,
+  scaled down to share the row. An input that keeps the focus for a moment shows its live picture in that card
+  (Samsung's TV window, `tizen.tvwindow`, under a hole in the page with the card's rounded corners). OK opens it as
+  before, already on that source.
 - **The Source key** opens the drawer on the input on screen, and each press goes to the next connected one.
 - It registers only that key: never the volume, which stops working while an app holds it.
+- **The app under the focus** gets a white edge, on the shelf and in All Apps.
 
 ```bash
 python3 screenrevo/home/build.py --sign <profile>   # out/screenrevo.wgt; --preview for a browser
 python3 screenrevo/home/install.py <TV IP>
 ```
+
+Like Free My TV, it takes the city and the TMDB key (the picks in Explore, Movies and Shows) from `config.properties`
+when there is one; without it, the city comes from the TV's time zone and there are no picks. That file is never
+committed.
 
 On the TV, *Autorun Last App* (Settings, General, Smart Features on 2021 sets) makes it turn on into ScreenRevo,
 and moving ScreenRevo to the first place in Smart Hub's bar makes it Home, then OK: Home itself stays Samsung's.

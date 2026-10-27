@@ -1,18 +1,31 @@
 /* ScreenRevo on Free My TV's home screen (screenrevo.js). Plain CSS, like web/: no variables, grid or backdrop-filter. */
 
-/* Live inputs: Samsung's TV window lies under the page, so the page's own backgrounds step aside for it. */
-#sky { -webkit-transition: opacity 0.35s; transition: opacity 0.35s; }
-html.sr-live, html.sr-live body { background: transparent; }
-html.sr-live #sky { opacity: 0; }
-
-/* A shade over the live picture, darker at the bottom, so the shelf and the drawer stay readable on it. */
-#sr-shade {
-  z-index: 0;
-  opacity: 0;
-  pointer-events: none;
-  background: -webkit-linear-gradient(top, rgba(0, 0, 0, 0) 30%, rgba(0, 0, 0, 0.72));
-  background: linear-gradient(rgba(0, 0, 0, 0) 30%, rgba(0, 0, 0, 0.72));
-  -webkit-transition: opacity 0.35s;
-  transition: opacity 0.35s;
+/* The live card, first in the drawer's card row, with Free My TV's glass. screenrevo.js rounds its corners as the
+   scaled cards', and the sky's hole with them. */
+#sr-live-card {
+  position: absolute;
+  overflow: hidden;
+  text-align: center;
+  color: #1D1D1F;
 }
-html.sr-live #sr-shade { opacity: 1; }
+.night #sr-live-card { color: #F5F5F7; }
+#sr-live-card .sym { display: block; width: 40px; height: 40px; margin: 54px auto 16px; }
+#sr-live-card .title { font-size: 26px; font-weight: 600; white-space: nowrap; }
+#sr-live-card .hint { margin-top: 8px; font-size: 20px; font-weight: 500; color: #6E6E73; white-space: nowrap; }
+.night #sr-live-card .hint { color: rgba(255, 255, 255, 0.6); }
+
+/* Live: Samsung's TV window lies under the page. screenrevo.js cuts a hole in #sky where the card is, the page behind
+   #sky lets it through, and the card turns into the picture's frame. */
+html.sr-live, html.sr-live body { background: transparent; }
+html.sr-live #sr-live-card {
+  background: transparent;
+  box-shadow: 0 0 0 3px rgba(255, 255, 255, 0.9), 0 18px 44px rgba(0, 0, 0, 0.45);
+}
+html.sr-live.night #sr-live-card, html.sr-live .night #sr-live-card { box-shadow: 0 0 0 3px rgba(255, 255, 255, 0.5), 0 18px 44px rgba(0, 0, 0, 0.6); }
+html.sr-live #sr-live-card .sym, html.sr-live #sr-live-card .title, html.sr-live #sr-live-card .hint { visibility: hidden; }
+
+/* The app under the focus, on the shelf and in All Apps, gets a white edge; a faint dark one outside it keeps it
+   apart from the daytime glass. */
+.tile.focus { box-shadow: 0 0 0 3px #FFF, 0 0 0 5px rgba(0, 0, 0, 0.2), 0 18px 40px rgba(0, 0, 0, 0.34); }
+.night .tile.focus { box-shadow: 0 0 0 3px #FFF, 0 18px 40px rgba(0, 0, 0, 0.6); }
+.cell.focus .face { box-shadow: 0 0 0 3px #FFF, 0 16px 34px rgba(0, 0, 0, 0.55); }
