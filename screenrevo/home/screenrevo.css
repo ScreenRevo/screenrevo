@@ -1,10 +1,11 @@
 /* ScreenRevo on Free My TV's home screen (screenrevo.js). Plain CSS, like web/: no variables, grid or backdrop-filter. */
 
-/* The live card, first in the drawer's card row, with Free My TV's glass. screenrevo.js rounds its corners as the
-   scaled cards', and the sky's hole with them. */
+/* The live card, first in the drawer's card row, with Free My TV's glass. Square corners, as the sky's hole and the TV
+   window in it. */
 #sr-live-card {
   position: absolute;
   overflow: hidden;
+  border-radius: 0;
   text-align: center;
   color: #1D1D1F;
 }

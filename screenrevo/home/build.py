@@ -7,8 +7,9 @@
     python3 screenrevo/home/build.py --config other.properties
 
 Free My TV's files come from tools/webapp.py as they are; screenrevo.js and screenrevo.css go in after home.js and
-home.css, written into index.html here, so nothing in web/ changes. Settings: config.properties when there is one
-(or --config), else as Free My TV's --generic: the TV's time zone picks the city, and there's no TMDB key.
+home.css, written into index.html here, so nothing in web/ changes. icon.png is Free My TV's icon with square corners,
+as the other apps' on Samsung's bar. Settings: config.properties when there is one (or --config), else as Free My TV's
+--generic: the TV's time zone picks the city, and there's no TMDB key.
 """
 import os
 import sys
@@ -46,11 +47,9 @@ def main():
 
     app = webapp.files(config, 'screenrevo/home/build.py')
     app['index.html'] = with_ours(app['index.html'])
-    for name in OURS + ('config.xml',):
+    for name in OURS + ('config.xml', 'icon.png'):
         with open(os.path.join(HERE, name), 'rb') as f:
             app[name] = f.read()
-    with open(os.path.join(ROOT, 'tizen', 'icon.png'), 'rb') as f:
-        app['icon.png'] = f.read()
 
     os.makedirs(os.path.dirname(WGT), exist_ok=True)
     with zipfile.ZipFile(WGT, 'w', zipfile.ZIP_DEFLATED) as z:

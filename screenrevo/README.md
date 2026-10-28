@@ -12,8 +12,8 @@ Free My TV's web home screen (`web/`, as it is) packed as its own Samsung app, `
 
 - **Live inputs:** the drawer's card row starts with a live card, and the weather and prices cards move to its right,
   scaled down to share the row. An input that keeps the focus for a moment shows its live picture in that card
-  (Samsung's TV window, `tizen.tvwindow`, under a hole in the page with the card's rounded corners). OK opens it as
-  before, already on that source.
+  (Samsung's TV window, `tizen.tvwindow`, under a hole in the page). OK opens it as before, already on that source.
+  A device turned on or off lights up or dims its key right away, and the card says when an input has nothing on.
 - **The Source key** opens the drawer on the input on screen, and each press goes to the next connected one.
 - It registers only that key: never the volume, which stops working while an app holds it.
 - **The app under the focus** gets a white edge, on the shelf and in All Apps.
